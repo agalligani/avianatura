@@ -1,6 +1,5 @@
 import './styles/App.scss';
 import { 
-    BrowserRouter as Router,
     Routes,
     Route
  } from 'react-router-dom';
@@ -8,11 +7,11 @@ import {
  import Home from './components/Home/Home';
  import Tours from './features/Tours/Tours';
  import ToursByCountry from './features/Tours/ToursByCountry';
+ import ToursUSList from './features/Tours/ToursUSList';
  
 function App() {
   return (
     <>
-    <Router>
       <Routes>
         <Route path="/" element={<Layout/>} >
           <Route index element={<Home />} />
@@ -21,9 +20,12 @@ function App() {
             <Route index element={<Tours />} />
             <Route path=":id" element={<ToursByCountry />} />
           </Route>
+          <Route path="toursUS" >
+            <Route index element={<ToursUSList />} />
+            {/* <Route path=":id" element={<ToursByCountry />} /> */}
+          </Route>
         </Route>
       </Routes>
-    </Router>
     </>
   );
 }
