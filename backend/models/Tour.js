@@ -8,11 +8,20 @@ const tourSchema = new mongoose.Schema({
     country: {
         type: String,
     },
+    countryState: {
+        type: String,
+    },
     startdate: {
         type: Date
     },
     enddate: {
         type: Date
+    },
+    lengthInDays: {
+        type: Number
+    },
+    participants: {
+        type: Number
     },
     hotspots: [{
         type: String

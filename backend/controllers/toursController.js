@@ -19,7 +19,8 @@ const getAllTours = async (req, res) => {
 // @route POST /tours
 // @access Private
 const createNewTour = async (req, res) => {
-    const { tourname, startdate, enddate, hotspots, active } = req.body
+    const { tourname, country, countryState, startdate, enddate, hotspots, active } = req.body
+    console.log({country})
 
     // Confirm data
     if (!tourname) {
@@ -27,13 +28,13 @@ const createNewTour = async (req, res) => {
     }
 
     // Check for duplicate tourname
-    const duplicate = await Tour.findOne({ tourname }).collation({ locale: 'en', strength: 2 }).lean().exec()
+    // const duplicate = await Tour.findOne({ tourname }).collation({ locale: 'en', strength: 2 }).lean().exec()
 
-    if (duplicate) {
-        return res.status(409).json({ message: 'Duplicate tourname' })
-    }
+    // if (duplicate) {
+    //     return res.status(409).json({ message: 'Duplicate tourname' })
+    // }
 
-    const tourObject = {tourname, startdate, enddate, hotspots, active}
+    const tourObject = {tourname, country, countryState, startdate, enddate, hotspots, active}
 
     // Create and store new tour 
     const tour = await Tour.create(tourObject)
@@ -49,7 +50,7 @@ const createNewTour = async (req, res) => {
 // @route PATCH /tours
 // @access Private
 const updateTour = async (req, res) => {
-    const { id, tourname, startdate, enddate, hotspots, active } = req.body
+    const {tourname, country, countryState, startdate, enddate, hotspots, active} = req.body
 
     // Confirm data 
     if (!id || !tourname || !Array.isArray(roles) || !roles.length || typeof active !== 'boolean') {
@@ -72,6 +73,8 @@ const updateTour = async (req, res) => {
     }
 
     tour.tourname = tourname
+    tour.country = country
+    tour.countryState = countryState
     tour.statedate = startdate
     tour.enddate = enddate
     tour.hotspots = hotspots

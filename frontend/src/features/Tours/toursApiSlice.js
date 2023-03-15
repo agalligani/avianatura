@@ -20,43 +20,43 @@ export const toursApiSlice = apiSlice.injectEndpoints({
                 },
             }),
             transformResponse: responseData => {
-                const loadedNotes = responseData.map(note => {
-                    note.id = note._id
-                    return note
+                const loadedTours = responseData.map(tour => {
+                    tour.id = tour._id
+                    return tour
                 });
-                return toursAdapter.setAll(initialState, loadedNotes)
+                return toursAdapter.setAll(initialState, loadedTours)
             },
             providesTags: (result, error, arg) => {
                 if (result?.ids) {
                     return [
-                        { type: 'Note', id: 'LIST' },
-                        ...result.ids.map(id => ({ type: 'Note', id }))
+                        { type: 'Tour', id: 'LIST' },
+                        ...result.ids.map(id => ({ type: 'Tour', id }))
                     ]
-                } else return [{ type: 'Note', id: 'LIST' }]
+                } else return [{ type: 'Tour', id: 'LIST' }]
             }
         }),
         addNewTour: builder.mutation({
-            query: initialNote => ({
+            query: initialTour => ({
                 url: '/tours',
                 method: 'POST',
                 body: {
-                    ...initialNote,
+                    ...initialTour,
                 }
             }),
             invalidatesTags: [
-                { type: 'Note', id: "LIST" }
+                { type: 'Tour', id: "LIST" }
             ]
         }),
         updateTour: builder.mutation({
-            query: initialNote => ({
+            query: initialTour => ({
                 url: '/tours',
                 method: 'PATCH',
                 body: {
-                    ...initialNote,
+                    ...initialTour,
                 }
             }),
             invalidatesTags: (result, error, arg) => [
-                { type: 'Note', id: arg.id }
+                { type: 'Tour', id: arg.id }
             ]
         }),
         deleteTour: builder.mutation({
@@ -66,7 +66,7 @@ export const toursApiSlice = apiSlice.injectEndpoints({
                 body: { id }
             }),
             invalidatesTags: (result, error, arg) => [
-                { type: 'Note', id: arg.id }
+                { type: 'Tour', id: arg.id }
             ]
         }),
     }),
@@ -80,18 +80,18 @@ export const {
 } = toursApiSlice
 
 // returns the query result object
-export const selectNotesResult = toursApiSlice.endpoints.getTours.select()
+export const selectToursResult = toursApiSlice.endpoints.getTours.select()
 
 // creates memoized selector
-const selectNotesData = createSelector(
-    selectNotesResult,
-    notesResult => notesResult.data // normalized state object with ids & entities
+const selectToursData = createSelector(
+    selectToursResult,
+    toursResult => toursResult.data // normalized state object with ids & entities
 )
 
 //getSelectors creates these selectors and we rename them with aliases using destructuring
 export const {
-    selectAll: selectAllNotes,
-    selectById: selectNoteById,
-    selectIds: selectNoteIds
-    // Pass in a selector that returns the notes slice of state
-} = toursAdapter.getSelectors(state => selectNotesData(state) ?? initialState)
+    selectAll: selectAllTours,
+    selectById: selectTourById,
+    selectIds: selectTourIds
+    // Pass in a selector that returns the tours slice of state
+} = toursAdapter.getSelectors(state => selectToursData(state) ?? initialState)

@@ -30,6 +30,7 @@ const NavBar = () => {
                 <NavDropdown.Item href="/tours/es">Cambodia - 2024</NavDropdown.Item>
                 <NavDropdown.Item href="/tours/es">India - 2024</NavDropdown.Item>
               </NavDropdown>
+              <Nav.Link href="/tour/new">Add A Tour</Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Container>

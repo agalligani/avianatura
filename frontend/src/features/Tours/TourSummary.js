@@ -17,13 +17,14 @@ const TourSummary = ({tourId}) => {
 
         // const updated = new Date(tour.updatedAt).toLocaleString('en-US', { day: 'numeric', month: 'long' })
 
-        const showTourDetails = () => navigate(`/tourdetails/${tourId}`)
+        const showTourDetails = () => navigate(`/tour/${tourId}`)
 
         return (
             <tr className="table__row">
                 <td className="table__cell tour__status">
+                {tour.tourname}
                 </td>
-                <td className="table__cell">{tour.tourname}</td>
+                <td className="table__cell"></td>
                 <td className="table__cell tour__updated"></td>
                 <td className="table__cell tour__title"></td>
                 <td className="table__cell tour__username"></td>
