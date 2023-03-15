@@ -5,7 +5,8 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 // For version with  authorization verson See:
 // https://github.com/gitdagray/mern_stack_course/blob/main/lesson_12-frontend
 
-const baseQuery = fetchBaseQuery({
+const baseQuery = fetchBaseQuery(
+{
     baseUrl: 'http://localhost:3500'
 })
 

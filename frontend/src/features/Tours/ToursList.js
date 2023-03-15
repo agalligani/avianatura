@@ -6,13 +6,6 @@ import TourSummary from "./TourSummary"
 import PulseLoader from 'react-spinners/PulseLoader'
 
 const NotesList = () => {
-    // useTitle('techNotes: Notes List')
-
-    // const { username, isManager, isAdmin } = useAuth()
-
-    const { countryid } = "US"
-    // const { countryid } = useParams()
-
     const {
         data: tours,
         isLoading,

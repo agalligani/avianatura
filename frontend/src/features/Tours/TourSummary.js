@@ -3,7 +3,7 @@ import { useGetToursQuery } from './toursApiSlice'
 import { memo } from 'react'
 
 const TourSummary = ({tourId}) => {
-
+    console.log(tourId)
     const { tour } = useGetToursQuery("toursList", {
         selectFromResult: ({ data }) => ({
             tour: data?.entities[tourId]

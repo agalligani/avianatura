@@ -22,7 +22,9 @@ function App() {
           <Route element={<Prefetch />}>
             <Route path="tours" >
               <Route index element={<Tours />} />
-              <Route path=":id" element={<ToursByCountry />} />
+              <Route path="country" >
+                <Route path=":id" element={<ToursByCountry />} />
+              </Route>
             </Route>
             <Route path="tour" >
               <Route index element={<Tours />} />
@@ -30,7 +32,7 @@ function App() {
               <Route path="new" element={<NewTour />} />
             </Route>
             <Route path="toursUS" >
-              <Route index element={<ToursUSList />} />
+              <Route index element={<ToursUSList countryid={"AD"} />} />
             {/* <Route path=":id" element={<ToursByCountry />} /> */}
             </Route>
           </Route>

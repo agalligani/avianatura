@@ -10,7 +10,6 @@ const ToursUSList = () => {
 
     // const { username, isManager, isAdmin } = useAuth()
 
-    // const countryid = "US"
     // const { countryid } = useParams()
 
     const {
@@ -21,8 +20,8 @@ const ToursUSList = () => {
         error
     } = useGetToursQuery('toursList', {
         pollingInterval: 15000,
-        refetchOnFocus: true,
-        refetchOnMountOrArgChange: true
+        refetchOnFocus: false,
+        refetchOnMountOrArgChange: false
     })
 
     let content
@@ -36,16 +35,19 @@ const ToursUSList = () => {
     if (isSuccess) {
         const { ids, entities } = tours
 
+        console.log(tours)
+
         let filteredIds
         filteredIds = [...ids]
+        console.log(filteredIds)
 
+        const countryId = "AD"
 
-
-        // if (isManager || isAdmin) {
-        //     filteredIds = [...ids]
-        // } else {
-        //     filteredIds = ids.filter(noteId => entities[noteId].username === username)
-        // }
+        if (!countryId) {
+            filteredIds = [...ids]
+        } else {
+            filteredIds = ids.filter(noteId => entities[noteId].country === countryId)
+        }
 
         const tableContent = ids?.length && filteredIds.map(tourId => <TourSummary key={tourId} tourId={tourId} />)
 

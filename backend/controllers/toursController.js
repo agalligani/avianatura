@@ -7,9 +7,52 @@ const getAllTours = async (req, res) => {
     // Get all tours from MongoDB
     const tours = await Tour.find().lean()
 
+    console.log(req.data)
+
+
     // If no tours 
     if (!tours?.length) {
         return res.status(400).json({ message: 'No tours found' })
+    }
+
+    console.log(tours)
+
+    res.json(tours)
+}
+
+// maybe should be melded into getAllTours?
+// @desc Get all tours
+// @route GET /tours/bystate
+// @access Private
+const getToursByState = async (req, res) => {
+
+    console.log(req.data)
+
+    const countryState = req.query.countryState
+    // Get tours by state from MongoDB
+    console.log(countryState)
+    const tours = await Tour.find({"countryState": countryState}).lean()
+
+    // If no tours 
+    if (!tours?.length) {
+        return res.status(400).json({ message: `No tours found in state = ${countryState} `})
+    }
+
+    res.json(tours)
+}
+
+// @desc Get all tours
+// @route GET /toursByCountry
+// @access Private
+const getToursByCountry = async (req, res) => {
+
+    const { country } = req.query
+    // Get tours by state from MongoDB
+    const tours = await Tour.find({"country": country}).lean()
+
+    // If no tours 
+    if (!tours?.length) {
+        return res.status(400).json({ message: `No tours found in country = ${country} `})
     }
 
     res.json(tours)
@@ -19,8 +62,17 @@ const getAllTours = async (req, res) => {
 // @route POST /tours
 // @access Private
 const createNewTour = async (req, res) => {
-    const { tourname, country, countryState, startdate, enddate, hotspots, active } = req.body
-    console.log({country})
+
+    const { 
+        tourname,
+        country, 
+        countryState, 
+        startdate, 
+        enddate, 
+        lengthInDays, 
+        participants, 
+        hotspots,
+        active} = req.body
 
     // Confirm data
     if (!tourname) {
@@ -34,8 +86,18 @@ const createNewTour = async (req, res) => {
     //     return res.status(409).json({ message: 'Duplicate tourname' })
     // }
 
-    const tourObject = {tourname, country, countryState, startdate, enddate, hotspots, active}
-
+    const tourObject = {   
+        tourname,
+        country,
+        countryState, 
+        hotspots,
+        startdate,
+        enddate,
+        lengthInDays,
+        participants,
+        active
+        }
+    
     // Create and store new tour 
     const tour = await Tour.create(tourObject)
 
@@ -50,7 +112,16 @@ const createNewTour = async (req, res) => {
 // @route PATCH /tours
 // @access Private
 const updateTour = async (req, res) => {
-    const {tourname, country, countryState, startdate, enddate, hotspots, active} = req.body
+    const { id,
+            tourname, 
+            country, 
+            countryState, 
+            startdate, 
+            enddate, 
+            lengthInDays, 
+            participants, 
+            hotspots, 
+            active} = req.body
 
     // Confirm data 
     if (!id || !tourname || !Array.isArray(roles) || !roles.length || typeof active !== 'boolean') {
@@ -77,6 +148,8 @@ const updateTour = async (req, res) => {
     tour.countryState = countryState
     tour.statedate = startdate
     tour.enddate = enddate
+    tour.lengthInDays = lengthInDays
+    tour.participants = participants 
     tour.hotspots = hotspots
     tour.active = active
 
@@ -118,6 +191,8 @@ const deleteTour = async (req, res) => {
 
 module.exports = {
     getAllTours,
+    getToursByState,
+    getToursByCountry,
     createNewTour,
     updateTour,
     deleteTour

@@ -28,6 +28,9 @@ app.use('/', express.static(path.join(__dirname, 'public')))
 
 app.use('/', require('./routes/root'))
 app.use('/tours', require('./routes/tours'))
+// app.get('/p/:tagId', function(req, res) {
+//     res.send("tagId is set to " + req.params.tagId);
+//   });
 // app.use('/users', require('./routes/userRoutes'))
 // app.use('/notes', require('./routes/noteRoutes'))
 

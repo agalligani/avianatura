@@ -6,7 +6,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import DateTimePicker from 'react-datetime-picker'
 
-const NewTourForm = ({usstates, mxstates, countries}) => {
+const NewTourForm = ({usstates, mxstates, countries, lengths}) => {
 
     const [addNewTour, {
         isLoading,
@@ -18,33 +18,49 @@ const NewTourForm = ({usstates, mxstates, countries}) => {
     const navigate = useNavigate()
 
     const [tourname, setTourName ] = useState("")
-    const [country, setCountry ] = useState("us")
+    const [country, setCountry ] = useState("US")
     const [availableStates, setAvailableStates ] = useState(usstates)
-    const [selectedState, setSelectedState ] = useState("")
+    const [selectedState, setSelectedState ] = useState("US-NY")
     const [startdate, setStartDate] = useState(new Date());
     const [enddate, setEndDate] = useState(new Date());
+    const [lengthInDays, setLengthInDays] = useState(1)
+    const [participants, setParticipants] = useState(7)
 
     useEffect(() => {
         if (isSuccess) {
             setTourName('')
-            setCountry('')
+            setCountry('US')
             setAvailableStates(usstates)
             setSelectedState("")
             setStartDate(new Date())
             setEndDate(new Date())
+            setLengthInDays(1)
+            setParticipants(0)
             navigate('/home')
         }
     }, [isSuccess, navigate])
 
     const canSave = [tourname].every(Boolean) && !isLoading
     const errClass = isError ? "errmsg" : "offscreen"
-    const disableStates = false
+    let disableStates = false
+    const hotSpots = []
+    const active = false
 
     const onSaveTourClicked = async (e) => {
         e.preventDefault()
         if (canSave) {
             console.log({country})
-            await addNewTour({tourname, country, countryState: selectedState, startdate, enddate})
+            await addNewTour(
+                {   tourname, 
+                    country, 
+                    countryState: selectedState, 
+                    hotSpots,
+                    startdate, 
+                    enddate,
+                    lengthInDays,
+                    participants,
+                    active
+                })
         }
     }
 
@@ -54,6 +70,16 @@ const NewTourForm = ({usstates, mxstates, countries}) => {
                 key={country.code}
                 value={country.code}
             > {country.name}
+            </option >
+        )
+    })
+
+    const lengthOptions = lengths.map(l => {
+        return (
+            <option
+                key={l.code}
+                value={l.code}
+            > {l.name}
             </option >
         )
     })
@@ -69,8 +95,9 @@ const NewTourForm = ({usstates, mxstates, countries}) => {
     })
 
     console.log({stateOptions})
-
+    
     const onTourNameChanged = (e) => {setTourName(e.target.value)}
+    const onLengthInDaysChanged = (e) => {setLengthInDays(e.target.value)}
     const onCountryChanged = (e) => {
         setCountry(e.target.value)
         switch (e.target.value) {
@@ -82,12 +109,14 @@ const NewTourForm = ({usstates, mxstates, countries}) => {
                 break;
             default:
                 setSelectedState("")
+                setAvailableStates([])
                 disableStates=true
                 break;
         }
     }
 
     const onStateChanged = (e) => {setSelectedState(e.target.value)}
+    const onParticipantsChanged = (e) => {setParticipants(e.target.value)}
 
         const content = 
             <>
@@ -112,8 +141,6 @@ const NewTourForm = ({usstates, mxstates, countries}) => {
                     <Form.Select 
                         aria-label="Select Country"
                         name="country"
-                        // value="us"
-                        defaultValue="US"
                         onChange={onCountryChanged}
                         >
                             {countryOptions}
@@ -126,7 +153,6 @@ const NewTourForm = ({usstates, mxstates, countries}) => {
                         aria-label="Select State/Region"
                         name="selectedState"
                         // value="us"
-                        defaultValue="US-NY"
                         onChange={onStateChanged}
                         disabled={disableStates}
                         >
@@ -154,6 +180,27 @@ const NewTourForm = ({usstates, mxstates, countries}) => {
                         name="enddate"
                         value={enddate}
                     />                
+                </Form.Group>
+
+                <Form.Group>
+                    <label>Length of Tour</label>
+                    <select 
+                        aria-label="Enter Length in Days"
+                        name="lengthInDays"
+                        value={lengthInDays}
+                        onChange={onLengthInDaysChanged}
+                        >
+                            {lengthOptions}
+                    </select>
+                </Form.Group>
+                <Form.Group>
+                    <label>Participants</label>
+                    <input 
+                        type="text"
+                        name="participants"
+                        value={participants}
+                        onChange={onParticipantsChanged}
+                    />
                 </Form.Group>
 
                 <Button variant="primary" type="submit">
