@@ -9,6 +9,7 @@ const Home = () => {
         <p>
             We seek out guides who have devoted much or all of their lives to nature and the outdoors, and who are skilled not only at finding birds, but who share a deep understanding of nature. That's not to say it's not all about the birds, but it's about birds and their natural history and their relationship to the landscape and seasons. Our tour company is a labor of love and comraderie, and each trip is a quest
         </p>
-    </div>  )
+    </div>  
+    )
 }
 export default Home

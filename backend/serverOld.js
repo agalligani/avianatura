@@ -11,13 +11,13 @@ const corsOptions = require('./config/corsOptions')
 const connectDB = require('./config/dbConn')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser');
-// const fs = require('fs');
-const formidableMiddleware = require('express-formidable');
+const fs = require('fs');
+
+
 
 const PORT = process.env.PORT || 3500
 
 console.log(process.env.NODE_ENV)
-console.log("hi")
 
 connectDB()
 
@@ -28,30 +28,41 @@ app.use(express.json())
 app.use(cookieParser())
 app.use(express.urlencoded({limit: '25mb', extended: true}));
 
-app.use(formidableMiddleware({
-  encoding: 'utf-8',
-  uploadDir: path.join(__dirname, 'uploads'),
-  multiples: true, // req.files to be arrays of files
-}))
- 
-app.post('/upload', (req, res) => {
-  req.fields // contains non-file fields
-  req.files // contains files
-  res.status(200).json({message: "ok"})
-});
-
 app.use('/', express.static(path.join(__dirname, 'public')))
 app.use('/', require('./routes/root'))
 app.use('/tours', require('./routes/tours'))
 
-//Image routes
-app.use('/images', require('./routes/images'))  
+app.use("/uploads", async (req, res, next) => {
+    const body = req.body
+    try {
+      const newImage = await Post.create(body)
+      newImage.save()
+      res.status(201).json({message: "new image uploaded", createdPost: newImage})
+    } catch (error) {
+      res.status(409).json({
+        message: error.message,
+      })
+    }
+  })
 
-app.post('/uploads',
-  (req,res) => {
+//Image routes
+app.use('/images', require('./routes/images'))
+// app.get('/p/:tagId', function(req, res) {
+//     res.send("tagId is set to " + req.params.tagId);
+//   });
+// app.use('/users', require('./routes/userRoutes'))
+// app.use('/notes', require('./routes/noteRoutes'))
+
+// app.use(formidable({
+//     encoding: 'utf-8',
+//     uploadDir: path.join(__dirname, 'uploads'),
+//     multiples: true,
+//     keepExtensions: true// req.files to be arrays of files
+//   }));
+  
+  app.post('/uploads',function(req,res){
     console.log('Files '+JSON.stringify(req.files));// contains data about file fields
     console.log('Fields '+JSON.stringify(req.fields));//contains data about non-file fields
-    res.status(200).json({message: "ok"})
   });
 
 

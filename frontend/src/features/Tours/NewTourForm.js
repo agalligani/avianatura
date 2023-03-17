@@ -93,8 +93,6 @@ const NewTourForm = ({usstates, mxstates, countries, lengths}) => {
             </option >
         )
     })
-
-    console.log({stateOptions})
     
     const onTourNameChanged = (e) => {setTourName(e.target.value)}
     const onLengthInDaysChanged = (e) => {setLengthInDays(e.target.value)}

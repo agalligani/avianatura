@@ -7,15 +7,10 @@ const getAllTours = async (req, res) => {
     // Get all tours from MongoDB
     const tours = await Tour.find().lean()
 
-    console.log(req.data)
-
-
     // If no tours 
     if (!tours?.length) {
         return res.status(400).json({ message: 'No tours found' })
     }
-
-    console.log(tours)
 
     res.json(tours)
 }
@@ -26,11 +21,8 @@ const getAllTours = async (req, res) => {
 // @access Private
 const getToursByState = async (req, res) => {
 
-    console.log(req.data)
-
     const countryState = req.query.countryState
     // Get tours by state from MongoDB
-    console.log(countryState)
     const tours = await Tour.find({"countryState": countryState}).lean()
 
     // If no tours 

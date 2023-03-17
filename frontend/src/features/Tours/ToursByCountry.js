@@ -1,9 +1,6 @@
 import { useGetToursQuery } from "./toursApiSlice"
 import TourSummary from "./TourSummary"
 import { useParams } from "react-router-dom"
-// import { useParams } from "react-router-dom"
-// import useAuth from "../../hooks/useAuth"
-// import useTitle from "../../hooks/useTitle"
 import PulseLoader from 'react-spinners/PulseLoader'
 
 const ToursByCountry = () => {
@@ -42,7 +39,7 @@ const ToursByCountry = () => {
         if (!id) {
             filteredIds = [...ids]
         } else {
-            filteredIds = ids.filter(noteId => entities[noteId].country === id)
+            filteredIds = ids.filter(noteId => entities[noteId].country === id.toUpperCase())
         }
 
         const tableContent = ids?.length && filteredIds.map(tourId => <TourSummary key={tourId} tourId={tourId} />)

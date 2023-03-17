@@ -14,16 +14,12 @@ const NavBar = () => {
             <Nav className="me-auto">
                 <Nav.Link href="/">About</Nav.Link>
                 <Nav.Link href="/">Guides</Nav.Link>
-              <NavDropdown title="US Tours" id="basic-nav-dropdown">
-                <NavDropdown.Item href="/tours/adk">Adirondack Tours</NavDropdown.Item>
-                <NavDropdown.Item href="/tours/capem">Cape May - NJ</NavDropdown.Item>
-                <NavDropdown.Item href="/tours/ocnj">Ocean Country, NJ</NavDropdown.Item>
-                <NavDropdown.Item href="/tours/az">South-East Arizona</NavDropdown.Item>
-                <NavDropdown.Item href="/tours/saxz">Sax-Zimm Bog, Minnesota</NavDropdown.Item>
+              <NavDropdown title="Tours" id="basic-nav-dropdown">
+                <NavDropdown.Item href="/tours/country/us">US Tours</NavDropdown.Item>
+                <NavDropdown.Item href="/tours/country/mx">Mexico Tours</NavDropdown.Item>
               </NavDropdown>
               <NavDropdown title="Tours in Europe" id="basic-nav-dropdown">
-                <NavDropdown.Item href="/tours/it">Italy - 2024</NavDropdown.Item>
-                <NavDropdown.Item href="/tours/es">Spain - 2024</NavDropdown.Item>
+                <NavDropdown.Item href="/tours/country/es">Spain - 2024</NavDropdown.Item>
               </NavDropdown>
               <NavDropdown title="Tours in Asia" id="basic-nav-dropdown">
                 <NavDropdown.Item href="/tours/it">Thailand - 2024</NavDropdown.Item>
@@ -31,6 +27,7 @@ const NavBar = () => {
                 <NavDropdown.Item href="/tours/es">India - 2024</NavDropdown.Item>
               </NavDropdown>
               <Nav.Link href="/tour/new">Add A Tour</Nav.Link>
+              <Nav.Link href="/images">Upload Images</Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Container>

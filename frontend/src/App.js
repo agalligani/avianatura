@@ -11,6 +11,7 @@ import {
  import NewTour from './features/tours/NewTour';
  import ToursByCountry from './features/tours/ToursByCountry';
  import ToursUSList from './features/tours/ToursUSList';
+import ImageUploadForm from './components/ImageUploadForm/ImageUploadForm';
  
 function App() {
   return (
@@ -35,6 +36,10 @@ function App() {
               <Route index element={<ToursUSList countryid={"AD"} />} />
             {/* <Route path=":id" element={<ToursByCountry />} /> */}
             </Route>
+              <Route path="images" >
+                <Route index element={<ImageUploadForm />} />
+                {/* <Route path=":id" element={<ToursByCountry />} /> */}
+              </Route>
           </Route>
         </Route>
       </Routes>
